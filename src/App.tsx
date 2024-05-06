@@ -86,24 +86,24 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-pink-300 to-purple-400">
-      <audio ref={audioRef} src={audio_file} />;
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-pink-300 to-purple-400">
+      <audio ref={audioRef} src={audio_file} autoPlay /> {/* Added autoPlay for mobile */}
       {yesPressed ? (
         <>
-          <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Kissing bears" />
-          <div className="my-4 text-4xl font-bold text-white">WOOOOOO!!!!! ;))</div>
+          <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Kissing bears" className="h-48" />
+          <div className="my-4 text-2xl md:text-4xl font-bold text-white">WOOOOOO!!!!! ;))</div>
         </>
       ) : (
         <>
           <img
-            className="h-[200px] mb-4"
+            className="h-48 mb-4"
             src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
             alt="Bears with roses"
           />
-          <h1 className="my-4 text-4xl font-bold text-white">Will you be mine forever?</h1>
-          <div className="flex items-center">
+          <h1 className="my-4 text-2xl md:text-4xl font-bold text-white">Will you be mine forever?</h1>
+          <div className="flex flex-col md:flex-row items-center">
             <button
-              className={`mr-4 rounded bg-pink-500 px-4 py-2 font-bold text-white hover:bg-pink-700`}
+              className={`mb-2 md:mb-0 mr-0 md:mr-4 rounded bg-pink-500 px-4 py-2 font-bold text-white hover:bg-pink-700`}
               style={{ fontSize: yesButtonSize }}
               onClick={handleYesClick}
             >
