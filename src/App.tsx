@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import audio_file from "./sounds/cry.mp3";
+import { useState, useEffect, useRef } from "react";
 
  const phrases = [
       "No",
@@ -35,20 +36,43 @@ export default function Page() {
   const [noButtonText, setNoButtonText] = useState<string>(phrases[0]);
   const yesButtonSize = noCount * 20 + 16;
   const [_, setMessage] = useState<string>("");
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    const audio = new Audio("/path/to/your/romantic-song.mp3");
-    audio.play();
+    
+    const playAudio = () => {
+      if (audioRef.current) {
+        const audio = audioRef.current;
+        audio.play().catch(error => {
+          console.error('Autoplay failed:', error);
+        });
+      }
+    };
+
+    const documentHasInteracted = () => {
+      return ['mousedown', 'keydown', 'touchstart', 'wheel'].some(eventType =>
+        document.body.classList.contains(eventType)
+      );
+    };
+
+    if (documentHasInteracted()) {
+      playAudio();
+    } else {
+      const firstInteractionHandler = () => {
+        document.body.removeEventListener('mousedown', firstInteractionHandler);
+        playAudio();
+      };
+      document.body.addEventListener('mousedown', firstInteractionHandler);
+    }
 
     return () => {
-      audio.pause();
-      audio.currentTime = 0;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
     };
   }, []); 
 
-  // const sendMessage = async (msg: string) => {
-  //   await axios.post("http://localhost:8000/her", {msg: msg});
-  // }
 
   const handleYesClick = () => {
     setYesPressed(true);
@@ -61,20 +85,9 @@ export default function Page() {
     setNoButtonText(phrases[noCount % phrases.length]);
   };
 
-  // useEffect(() => {
-  //   if (message) {
-  //     if (message == "No") {
-  //       if (noCount == 1) {
-  //         sendMessage(message);
-  //       }
-  //     } else {
-  //       sendMessage(message);
-  //     }
-  //   }
-  // }, [message]);
-
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-pink-300 to-purple-400">
+      <audio ref={audioRef} src={audio_file} />;
       {yesPressed ? (
         <>
           <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Kissing bears" />
