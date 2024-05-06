@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { useState, useEffect } from "react";
 
  const phrases = [
@@ -35,7 +34,7 @@ export default function Page() {
   const [yesPressed, setYesPressed] = useState<boolean>(false);
   const [noButtonText, setNoButtonText] = useState<string>(phrases[0]);
   const yesButtonSize = noCount * 20 + 16;
-  const [message, setMessage] = useState<string>("");
+  const [_, setMessage] = useState<string>("");
 
   useEffect(() => {
     const audio = new Audio("/path/to/your/romantic-song.mp3");
